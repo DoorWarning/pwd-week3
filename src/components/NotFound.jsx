@@ -1,52 +1,67 @@
-/* src/components/NotFound.jsx */
+/* src/components/Header.jsx */
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { FaExclamationTriangle } from 'react-icons/fa';
+import { FaHome, FaList, FaFire, FaPlus } from 'react-icons/fa';
 
-const Container = styled.div`
-  text-align: center;
-  padding: 4rem 1rem;
-`;
-
-const Icon = styled(FaExclamationTriangle)`
-  font-size: 4rem;
-  color: #ff6b6b;
-  margin-bottom: 1rem;
-`;
-
-const Title = styled.h1`
-  font-size: 2rem;
-  margin-bottom: 1rem;
-`;
-
-const Message = styled.p`
-  color: #666;
-  margin-bottom: 2rem;
-`;
-
-const HomeLink = styled(Link)`
-  display: inline-block;
-  padding: 0.75rem 2rem;
-  background: #667eea;
+const HeaderContainer = styled.header`
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  border-radius: 8px;
+  padding: 1rem;
+`;
+
+const Nav = styled.nav`
+  display: flex;
+  justify-content: space-around;
+  max-width: 600px;
+  margin: 0 auto;
+`;
+
+const NavLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
   transition: background 0.3s;
   
   &:hover {
-    background: #5a67d8;
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  &.active {
+    background: rgba(255, 255, 255, 0.3);
   }
 `;
 
-function NotFound() {
+function Header() {
+  const location = useLocation();
+
+  const isActive = (path) => {
+    return location.pathname === path ? 'active' : '';
+  };
+
   return (
-    <Container>
-      <Icon />
-      <Title>404 - 페이지를 찾을 수 없습니다</Title>
-      <Message>요청하신 페이지가 존재하지 않습니다.</Message>
-      <HomeLink to="/">홈으로 돌아가기</HomeLink>
-    </Container>
+    <HeaderContainer>
+      <h1 style={{ textAlign: 'center', marginBottom: '1rem' }}>
+        Ajou Campus Foodmap
+      </h1>
+      <Nav>
+        <NavLink to="/" className={isActive('/')}>
+          <FaHome /> Home
+        </NavLink>
+        <NavLink to="/list" className={isActive('/list')}>
+          <FaList /> List
+        </NavLink>
+        <NavLink to="/popular" className={isActive('/popular')}>
+          <FaFire /> Popular Top 3
+        </NavLink>
+        <NavLink to="/submit" className={isActive('/submit')}>
+          <FaPlus /> Submit New restaurant
+        </NavLink>
+      </Nav>
+    </HeaderContainer>
   );
 }
 
-export default NotFound;
+export default Header;
